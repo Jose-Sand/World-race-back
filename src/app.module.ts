@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { CommonModule } from './common/common.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { CountriesModule } from './countries/countries.module';
+import { PaymentsModule } from './payments/payments.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { CountriesModule } from './countries/countries.module';
     AuthModule,
     CommonModule,
     CountriesModule,
+    PaymentsModule,
   ],
 })
 export class AppModule implements NestModule {

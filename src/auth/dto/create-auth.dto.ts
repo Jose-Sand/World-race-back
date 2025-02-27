@@ -23,7 +23,7 @@ export class CreateAuthDto {
   password: string;
 
   @IsEnum(ValidRoles)
-  role: ValidRoles;
+  role: ValidRoles = ValidRoles.user;
 
   @IsOptional()
   @IsString()

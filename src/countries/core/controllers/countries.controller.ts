@@ -12,6 +12,11 @@ export class CountriesController {
     return this.countriesService.findAll();
   }
 
+  @Get('first-ten')
+  findFirstTen(){
+    return this.countriesService.findFirstTen();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.countriesService.findOne(+id);

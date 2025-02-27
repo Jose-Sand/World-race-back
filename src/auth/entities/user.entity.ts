@@ -10,6 +10,7 @@ import {
 } from 'typeorm';
 import { Role } from './role.entity';
 import { City } from 'src/countries/entities/city.entity';
+import { Payment } from 'src/payments/entities/payment.entity';
 
 @Entity('users')
 export class User {
@@ -83,4 +84,7 @@ export class User {
   @ManyToOne(() => City, (city) => city.users)
   city: City;
 
+  //* relations
+  @OneToMany(() => Payment, (payment) => payment.user)
+  payments: Payment[];
 }
