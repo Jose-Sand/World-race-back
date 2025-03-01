@@ -1,4 +1,4 @@
-import { Injectable, RawBodyRequest } from '@nestjs/common';
+import { Injectable, Logger, RawBodyRequest } from '@nestjs/common';
 import { CreatePaymentDto } from './dto/create-payment.dto';
 import { UpdatePaymentDto } from './dto/update-payment.dto';
 import { StripeStrategy } from './strategies/stripe.strategy';
@@ -11,6 +11,7 @@ import { PaymentGateway } from './payment.gateway';
 
 @Injectable()
 export class PaymentsService {
+  private readonly logger = new Logger(PaymentsService.name);
   constructor(
     @InjectRepository(Payment)
     private readonly paymentRepository: Repository<Payment>,
@@ -52,13 +53,13 @@ export class PaymentsService {
 
   async webhookResponse(data: {request: RawBodyRequest<Request>}) {
     const event = await this.stripeStrategy.constructEventWebhook(data.request);
-    console.log('event', event);
+    this.logger.warn('event', event);
     switch (event.type) {
       case 'checkout.session.completed':
         const checkoutSessionComplete = event.data.object;
         // Then define and call a function to handle the event checkout.session.async_payment_failed
         const statusPaymentIntent = await this.stripeStrategy.statusPaymentIntent(checkoutSessionComplete.payment_intent.toString());
-        console.log('statusPaymentIntent', statusPaymentIntent);
+        this.logger.warn('statusPaymentIntent', statusPaymentIntent);
         if(statusPaymentIntent === 'succeeded'){
           await this.successPayment(checkoutSessionComplete.id);
         }
