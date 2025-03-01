@@ -53,13 +53,13 @@ export class PaymentsService {
 
   async webhookResponse(data: {request: RawBodyRequest<Request>}) {
     const event = await this.stripeStrategy.constructEventWebhook(data.request);
-    this.logger.warn('event', event);
+    this.logger.debug('event', event);
     switch (event.type) {
       case 'checkout.session.completed':
         const checkoutSessionComplete = event.data.object;
         // Then define and call a function to handle the event checkout.session.async_payment_failed
         const statusPaymentIntent = await this.stripeStrategy.statusPaymentIntent(checkoutSessionComplete.payment_intent.toString());
-        this.logger.warn('statusPaymentIntent', statusPaymentIntent);
+        this.logger.debug('statusPaymentIntent', statusPaymentIntent);
         if(statusPaymentIntent === 'succeeded'){
           await this.successPayment(checkoutSessionComplete.id);
         }
