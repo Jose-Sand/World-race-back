@@ -52,6 +52,7 @@ export class PaymentsService {
 
   async webhookResponse(data: {request: RawBodyRequest<Request>}) {
     const event = await this.stripeStrategy.constructEventWebhook(data.request);
+    console.log('event', event);
     switch (event.type) {
       case 'checkout.session.completed':
         const checkoutSessionComplete = event.data.object;
