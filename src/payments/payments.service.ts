@@ -57,7 +57,7 @@ export class PaymentsService {
         const checkoutSessionComplete = event.data.object;
         // Then define and call a function to handle the event checkout.session.async_payment_failed
         const statusPaymentIntent = await this.stripeStrategy.statusPaymentIntent(checkoutSessionComplete.payment_intent.toString());
-        if(statusPaymentIntent !== 'succeeded'){
+        if(statusPaymentIntent === 'succeeded'){
           await this.successPayment(checkoutSessionComplete.id);
         }
         break;
