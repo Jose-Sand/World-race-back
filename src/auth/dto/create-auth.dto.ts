@@ -10,8 +10,8 @@ export class CreateAuthDto {
   @MaxLength(100)
   lastName: string;
 
-  @IsNumber()
-  cityId: number;
+  // @IsNumber()
+  // cityId: number;
 
   @IsString()
   @IsEmail()

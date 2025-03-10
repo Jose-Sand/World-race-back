@@ -29,7 +29,7 @@ export class User {
     type: 'varchar',
     length: 100,
     nullable: false,
-    unique: true,
+    unique: false,
   })
   lastName: string;
 

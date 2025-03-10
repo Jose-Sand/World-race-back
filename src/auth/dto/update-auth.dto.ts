@@ -4,14 +4,15 @@ import { ValidRoles } from 'src/common/constant/validRoles';
 
 export class UpdateAuthDto {
   @IsString()
+  @MaxLength(100)
+  name: string;
+
+  @IsString()
+  @MaxLength(100)
+  lastName: string;
+
+  @IsString()
   @IsEmail()
   @MaxLength(100)
   email: string;
-
-  @IsEnum(ValidRoles)
-  role: ValidRoles;
-
-  @IsBoolean()
-  @Type(() => Boolean)
-  isActive: boolean;
 }

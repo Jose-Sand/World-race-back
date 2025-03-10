@@ -29,6 +29,8 @@ export class StripeStrategy {
   createSession(data: Session, paymentId: string) {
     return this.stripe.checkout.sessions.create({
       success_url: `${this.configService.get('WORLD_RACE_BASE_URL')}/success/${paymentId}`,
+      payment_method_types: ['card'],
+      submit_type: 'donate',
       line_items: [
         {
           price: data.priceId,

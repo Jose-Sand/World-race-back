@@ -38,21 +38,21 @@ export class AuthService {
       const role = await this.roleRepository.findOneBy({
         name: createAuthDto.role,
       });
-      const city = await this.cityRepository.findOne({
-        where:{ id: createAuthDto.cityId, },
-        relations: ['state', 'state.country'],
-      });
+      // const city = await this.cityRepository.findOne({
+      //   where:{ id: createAuthDto.cityId, },
+      //   relations: ['state', 'state.country'],
+      // });
       const user = this.userRepository.create({
         name: createAuthDto.name,
         lastName: createAuthDto.lastName,
         email: createAuthDto.email,
         password: pass,
         role,
-        city,
-        countryName: city.state.country.name,
+        // city,
+        // countryName: city.state.country.name,
       });
       await this.userRepository.save(user);
-      return user;
+      return this.signin(createAuthDto.email, createAuthDto.password);
     } catch (error) {
       this.commonService.handleError(error);
     }
@@ -112,13 +112,11 @@ export class AuthService {
 
   async update(id: string, data: UpdateAuthDto) {
     await this.findOne(id);
-    const role = await this.roleRepository.findOneBy({
-      name: data.role,
-    });
+
     const newData: Partial<User> = {
+      name: data.name,
+      lastName: data.lastName,
       email: data.email,
-      isActive: data.isActive,
-      role,
     };
     await this.userRepository.update(id, newData);
     return this.findOne(id);
@@ -126,7 +124,7 @@ export class AuthService {
 
   async remove(id: string) {
     const auth = await this.findOne(id);
-    await this.userRepository.delete(id);
+    await this.userRepository.softDelete(id);
     return auth;
   }
 
