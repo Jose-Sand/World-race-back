@@ -12,7 +12,7 @@ export class PdfService {
     console.log('this.configService.get("NODE_ENV")', this.configService.get('NODE_ENV'))
     return createPdf(filePath, options, data, {
       ...this.configService.get('NODE_ENV') === 'production' ? {
-        executablePath: '/usr/bin/google-chrome-stable',
+        executablePath: '/usr/bin/chromium-browser',
       }: {},
       headless: 'shell',
       args: ['--enable-gpu', '--no-sandbox'],
