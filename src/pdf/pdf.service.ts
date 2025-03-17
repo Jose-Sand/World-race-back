@@ -9,6 +9,7 @@ export class PdfService {
   constructor(private readonly configService: ConfigService) {}
   async generatePdf(options: any, data: any = {}){
     const filePath = path.join(process.cwd(), 'templates', 'donation.hbs');
+    console.log('this.configService.get("NODE_ENV")', this.configService.get('NODE_ENV'))
     return createPdf(filePath, options, data, {
       ...this.configService.get('NODE_ENV') === 'production' ? {
         executablePath: '/usr/bin/google-chrome-stable',
