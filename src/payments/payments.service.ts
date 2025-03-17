@@ -8,6 +8,9 @@ import { Repository } from 'typeorm';
 import { Country } from 'src/countries/entities/country.entity';
 import { Request } from 'express';
 import { PaymentGateway } from './payment.gateway';
+import { PdfService } from 'src/pdf/pdf.service';
+import { DateTime } from 'luxon';
+import { DATE_FORMAT } from 'src/common/constant/dateFormat.constant';
 
 @Injectable()
 export class PaymentsService {
@@ -19,6 +22,7 @@ export class PaymentsService {
     private readonly countryRepository: Repository<Country>,
     private readonly stripeStrategy: StripeStrategy,
     private readonly paymentGateway: PaymentGateway,
+    private readonly pdfService: PdfService,
   ){}
   async create(createPaymentDto: CreatePaymentDto, userId: string) {
     let payment = this.paymentRepository.create({
@@ -96,6 +100,34 @@ export class PaymentsService {
     }
   }
 
+  async generatePaymentPdf(paymentId: string, utc: string = ''){
+    const payment = await this.findOne(paymentId);
+    let pdf = null;
+    if(payment){
+      const data = {
+        name: payment.user.name,
+        lastName: payment.user.lastName,
+        amount: payment.amount,
+        country: payment.country.name,
+        createdAt: utc ?
+        DateTime.fromJSDate(payment.createdAt, {zone: 'utc'}).setZone(utc).toFormat(DATE_FORMAT.format1)
+        : DateTime.fromJSDate(payment.createdAt, {zone: 'utc'}).toFormat(DATE_FORMAT.format1),
+      };
+      pdf = await this.pdfService.generatePdf({
+        format: 'letter',
+        printBackground: true,
+        landscape: true,
+        margin: {
+            left: '0mm',
+            top: '0mm',
+            right: '0mm',
+            bottom: '0mm',
+        },
+      }, data);
+    }
+    return pdf;
+  }
+
   findBySessionId(sessionId: string){
     return this.paymentRepository.findOne({
       where: {stripeSessionId: sessionId},
@@ -107,8 +139,11 @@ export class PaymentsService {
     this.paymentGateway.sendDataToReload();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} payment`;
+  findOne(id: string) {
+    return this.paymentRepository.findOne({
+      where: {id},
+      relations: ['country', 'user']
+    });
   }
 
   update(id: number, updatePaymentDto: UpdatePaymentDto) {

@@ -7,6 +7,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Payment } from './entities/payment.entity';
 import { Country } from 'src/countries/entities/country.entity';
 import { PaymentGateway } from './payment.gateway';
+import { PdfModule } from 'src/pdf/pdf.module';
 
 @Module({
   controllers: [PaymentsController],
@@ -14,6 +15,7 @@ import { PaymentGateway } from './payment.gateway';
   imports: [
     PassportModule.register({ defaultStrategy: 'jwt' }),
     TypeOrmModule.forFeature([Payment, Country]),
+    PdfModule,
   ]
 })
 export class PaymentsModule {}

@@ -7,6 +7,8 @@ import { CommonModule } from './common/common.module';
 import { LoggerMiddleware } from './common/middlewares/logger.middleware';
 import { CountriesModule } from './countries/countries.module';
 import { PaymentsModule } from './payments/payments.module';
+import { MailModule } from './mail/mail.module';
+import { PdfModule } from './pdf/pdf.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { PaymentsModule } from './payments/payments.module';
     CommonModule,
     CountriesModule,
     PaymentsModule,
+    MailModule,
+    PdfModule,
   ],
 })
 export class AppModule implements NestModule {

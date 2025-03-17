@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Contribution</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .certificate-container {
+            width: 800px;
+            margin: auto auto auto auto;
+            padding: 40px;
+            background: white;
+            border: 10px solid #1e3a8a;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .certificate-header {
+            color: #1e3a8a;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .certificate-title {
+            font-size: 40px;
+            font-weight: bold;
+            color: #374151;
+            margin-top: 10px;
+        }
+
+        .certificate-body {
+            font-size: 18px;
+            color: #555;
+            margin-top: 20px;
+            padding: 0 50px;
+        }
+
+        .certificate-footer {
+            margin-top: 40px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .signature {
+            margin-top: 40px;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 50px;
+        }
+
+        .signature div {
+            text-align: center;
+        }
+
+        .signature-line {
+            width: 200px;
+            height: 1px;
+            background-color: #333;
+            margin: 10px auto;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="certificate-container">
+        <div class="certificate-header">Official Recognition</div>
+        <div class="certificate-title">Certificate of Contribution</div>
+
+        <div class="certificate-body">
+            This certificate is awarded to <strong>{{name}} {{lastName}}</strong>
+            in recognition of their generous contribution of
+            <strong>${{amount}}</strong> to the global ranking of
+            <strong>{{country}}</strong>.
+            <br><br>
+            We appreciate your support in shaping the future!
+        </div>
+
+        <div class="signature">
+            {{!-- <div>
+                <div class="signature-line"></div>
+                <div>Authorized Signature</div>
+            </div> --}}
+
+            <div>
+                <div class="signature-line"></div>
+                <div>Date: {{createdAt}}</div>
+            </div>
+        </div>
+
+        <div class="certificate-footer">
+            Thank you for making a difference!
+        </div>
+    </div>
+
+</body>
+</html>
